@@ -12,8 +12,8 @@ The solution contains two Dockerfiles - one for PostgreSQL DB and the second one
    ```
 2.  Bring up the DB
      ```
-     docker build -t postgres-db ./psql-db
-     docker run --name postgres-db --network db-app-network -d postgres-db
+     docker build -t postgresdb ./psql-db
+     docker run --name postgresdb --network db-app-network -d postgresdb
      ```
      This will bring up the container with a created database named "db"   
 3. Bring up the Python app
