@@ -16,9 +16,30 @@ For local deployment:
      docker run --name postgres-db --network db-app-network -d postgres-db
      ```
      This will bring up the container with a created database named "db"   
-3. Bring up the python app
+3. Bring up the Python app
    ```
    docker build -t birthday-python-app ./birthday-reminder-app
-   docker run -it --rm --name bday-python-app --network db-app-network birthday-python-app
+   docker run -it --rm --name bday-python-app --network db-app-network bday-python-app
    ```
-   This will bring up a container with started python process that will process the API calls.
+   This will bring up a container with started Python process that will process the API calls.
+
+### Testing
+* Terminal 1
+  Once you brought up Python container - you will see the log output of the application. Use it to catch API response codes.
+* Terminal 2
+  Log in to the Python app container
+  ```
+  docker exec -it bday-python-app /bin/sh
+  ```
+  And run the first PUT request to add a user
+  ```
+  curl -X PUT http://0.0.0.0:80/hello/username -H "Content-Type: application/json"  -d '{"name": "username","bday": "2000-07-15"}'
+  ```
+  If a user already exists, you will see 400 Error Response with the message that the user already exists. If request is correct and the user doesn't exist, you will get 200 Response and the user will be added to the db.
+  Now you can get a birthday message:
+  ```
+  curl -X GET http://0.0.0.0:80/hello/username
+  ```
+  If the user is not found, in the logs will appear 404 User Not Found message. If it exists - the app will calculate day till the user's birthday or will wish a Happy Birthday is the day is today.
+  
+
