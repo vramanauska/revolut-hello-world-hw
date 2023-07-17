@@ -46,15 +46,22 @@ The solution contains two Dockerfiles - one for PostgreSQL DB and the second one
 #### AWS
 The application can be deployed to AWS by this deployment schema
 ```
+                                              +---------------------+
+                                              |   Primary AWS RDS   |
+                                              |   (PostgreSQL DB)   |
+                                              +---------------------+
+                                                        |
+                                                        |
+                                                        |
                                                +------------------+
-                                               |     AWS RDS      |
-                                               | (PostgreSQL DB)  |
+                                               |  Standby AWS RDS |
+                                               |  (PostgreSQL DB) |
                                                +------------------+
                                                         |
                                                         |
                                                         |
                                                +------------------+
-                                               |     EKS Cluster  |
+                                               |    EKS Cluster   |
                                                +------------------+
                                                         |
                                                         |
@@ -64,6 +71,7 @@ The application can be deployed to AWS by this deployment schema
                                                | (Dockerized App) |
                                                +------------------+
 ```
-* **AWS RDS (Relational Database Service)**: This is a managed PostgreSQL database service provided by AWS. It hosts the PostgreSQL database where user data is going to be stored.
+* **Primary AWS RDS**: This is the primary instance of the managed PostgreSQL database service provided by AWS. It hosts the primary copy of the database used by the Birthday Reminder application.
+* **Standby AWS RDS (Relational Database Service)**: This is a standby instance of the managed PostgreSQL database service provided by AWS. It acts as a replica of the primary database and ensures high availability and disaster recovery.
 * **EKS Cluster (Amazon Elastic Kubernetes Service)**: This is a managed Kubernetes service provided by AWS. It manages the underlying infrastructure and control plane for running containerized applications.
-* **Fargate Task**: AWS Fargate runs a single Fargate task that directly hosts a Docker container running the Happy Birthday application. 
+* **Fargate Task**: AWS Fargate runs a single Fargate task that directly hosts a Docker container running the Birthday Reminder application. 
