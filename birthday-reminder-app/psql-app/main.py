@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from fastapi import Depends, FastAPI, HTTPException, Request, Response
+from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
 from . import crud, models, schemas
@@ -9,17 +9,6 @@ from .database import SessionLocal, engine
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
-
-@app.middleware("http")
-async def db_session_middleware(request: Request, call_next):
-    response = Response("Internal server error", status_code=500)
-    try:
-        request.state.db = SessionLocal()
-        response = await call_next(request)
-    finally:
-        request.state.db.close()
-    return response
 
 
 # Dependency
@@ -32,7 +21,7 @@ def get_db():
 
 
 @app.put("/hello/{name}", response_model=None, status_code=204)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+def create_user(user: schemas.User, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_username(db, name=user.name)
     if db_user:
         raise HTTPException(status_code=400, detail="Username already exists")
