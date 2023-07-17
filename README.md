@@ -43,7 +43,7 @@ The solution contains two Dockerfiles - one for PostgreSQL DB and the second one
   If the user is not found, in the logs will appear 404 User Not Found message. If it exists - the app will calculate day till the user's birthday or will wish a Happy Birthday is the day is today.
 
 ### Deployment to Cloud
-#### AWS
+#### AWS Deployment schema
 The application can be deployed to AWS by this deployment schema
 ```
                                               +---------------------+
@@ -74,4 +74,7 @@ The application can be deployed to AWS by this deployment schema
 * **Primary AWS RDS**: This is the primary instance of the managed PostgreSQL database service provided by AWS. It hosts the primary copy of the database used by the Birthday Reminder application.
 * **Standby AWS RDS (Relational Database Service)**: This is a standby instance of the managed PostgreSQL database service provided by AWS. It acts as a replica of the primary database and ensures high availability and disaster recovery.
 * **EKS Cluster (Amazon Elastic Kubernetes Service)**: This is a managed Kubernetes service provided by AWS. It manages the underlying infrastructure and control plane for running containerized applications.
-* **Fargate Task**: AWS Fargate runs a single Fargate task that directly hosts a Docker container running the Birthday Reminder application. 
+* **Fargate Task**: AWS Fargate runs a single Fargate task that directly hosts a Docker container running the Birthday Reminder application.
+
+#### Deployment script to AWS
+
