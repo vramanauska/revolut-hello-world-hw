@@ -18,7 +18,7 @@ The solution contains two Dockerfiles - one for PostgreSQL DB and the second one
      This will bring up the container with a created database named "db"   
 3. Bring up the Python app
    ```
-   docker build -t birthday-python-app ./birthday-reminder-app
+   docker build -t bday-python-app ./birthday-reminder-app
    docker run -it --rm --name bday-python-app --network db-app-network bday-python-app
    ```
    This will bring up a container with started Python process that will process the API calls.
