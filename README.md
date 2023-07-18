@@ -53,6 +53,3 @@ The application can be deployed to AWS by this deployment schema
 * **Secrets Manager**: securely stores application's sensitive credentials such as DB password.
 * **EKS Cluster (Amazon Elastic Kubernetes Service)**: This is a managed Kubernetes service provided by AWS. It manages the deployment and scaling of worker nodes or pods that run Docker containers as a Fargate Task.
 * **Fargate Task**: AWS Fargate runs a single Fargate task that directly hosts a Docker container running the Birthday Reminder application.
-
-#### Deployment script to AWS
-
