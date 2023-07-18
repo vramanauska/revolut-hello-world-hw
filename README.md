@@ -45,35 +45,13 @@ The solution contains two Dockerfiles - one for PostgreSQL DB and the second one
 ### Deployment to Cloud
 #### AWS Deployment schema
 The application can be deployed to AWS by this deployment schema
-```
-                                              +---------------------+
-                                              |   Primary AWS RDS   |
-                                              |   (PostgreSQL DB)   |
-                                              +---------------------+
-                                                        |
-                                                        |
-                                                        |
-                                               +------------------+
-                                               |  Standby AWS RDS |
-                                               |  (PostgreSQL DB) |
-                                               +------------------+
-                                                        |
-                                                        |
-                                                        |
-                                               +------------------+
-                                               |    EKS Cluster   |
-                                               +------------------+
-                                                        |
-                                                        |
-                                                        |
-                                               +------------------+
-                                               |   Fargate Task   |
-                                               | (Dockerized App) |
-                                               +------------------+
-```
-* **Primary AWS RDS**: This is the primary instance of the managed PostgreSQL database service provided by AWS. It hosts the primary copy of the database used by the Birthday Reminder application.
-* **Standby AWS RDS (Relational Database Service)**: This is a standby instance of the managed PostgreSQL database service provided by AWS. It acts as a replica of the primary database and ensures high availability and disaster recovery.
-* **EKS Cluster (Amazon Elastic Kubernetes Service)**: This is a managed Kubernetes service provided by AWS. It manages the underlying infrastructure and control plane for running containerized applications.
+![deployment](./aws_deployment.png)
+* **Amazon RDS with Multi-AZ deployment**: provides a highly available PostgreSQL database.
+* **Application Load Balancer (ALB)**: distributes incoming traffic to our containers.
+* **Route 53**: acts as the DNS service, routing traffic to the load balancer and providing health checks.
+* **CloudWatch**: provides monitoring and logging capabilities for the application and infrastructure.
+* **Secrets Manager**: securely stores application's sensitive credentials such as DB password.
+* **EKS Cluster (Amazon Elastic Kubernetes Service)**: This is a managed Kubernetes service provided by AWS. It manages the deployment and scaling of worker nodes or pods that run Docker containers as a Fargate Task.
 * **Fargate Task**: AWS Fargate runs a single Fargate task that directly hosts a Docker container running the Birthday Reminder application.
 
 #### Deployment script to AWS
